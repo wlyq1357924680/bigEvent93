@@ -30,6 +30,34 @@
         </div>
 
     </div> 
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <script>
+        $('.input_sub').click(function(e){
+            e.preventDefault();
+            var username=$('.input_txt').val();
+            console.log(username)
+            var pwd=$('.input_pass').val();
+            console.log(pwd)
+            // $.post('http://localhost:8000/admin/login',
+            // {user_name:username,password:pwd},
+            // function(res){console.log(res)},
+            // 'json'
+            // )
+            $.ajax({
+                type:'POST',
+                url:'http://localhost:8000/admin/login',
+                data:{user_name:username,password:pwd},
+                success:function(res){
+                    console.log(res)
+                    alert(res.msg)
+                    if(res.code==200){
+                        location.href='index.html'
+                    }
+                }
+            })
+           
+        })
+    </script>
 
 </body>
 
