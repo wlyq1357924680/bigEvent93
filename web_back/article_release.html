@@ -27,24 +27,20 @@
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章标题：</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputEmail3" placeholder="文章标题">
+                        <input name="title" type="email" class="form-control" id="inputEmail3" placeholder="文章标题">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">文章封面：</label>
                     <div class="col-sm-10">
-                        <input type="file" id="exampleInputFile">
+                        <input name="cover" type="file" id="exampleInputFile">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
                     <div class="col-sm-4">
-                        <select class="form-control">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                        <select class="form-control" name="type">
+
                         </select>
                     </div>
                 </div>
@@ -53,7 +49,7 @@
                     <div class="col-sm-4">
 
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="dateinput">
+                            <input name="date" type="text" class="form-control" placeholder="YYYY-MM-DD" id="dateinput">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button"
                                     onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})"><i
@@ -79,6 +75,45 @@
             </form>
         </div>
     </div>
+    <script src='../utils/config.js'></script>
+    <script src='../utils/category.js'></script>
+    <script src='./js/template-web.js'></script>
+    <script src='../utils/article.js'></script>
+    <script type='text/html' id="art">
+        {{each arr value}}
+            <option value={{value.id}}>{{value.name}}</option>   
+            {{/each}}
+    </script>
+    <script>
+        caterage.show(function(res){
+            console.log(res)
+          var str=template('art',{
+                arr:res.data
+            })
+            $('.form-control').html(str)
+        })
+    </script>
+    <script>
+        $('.btn-success').click(function(e){
+            e.preventDefault()
+           var form=$('.article_form')[0]
+           var fd=new FormData(form)
+        //    console.log(fd.get('content'))
+        fd.append('state','已发布')
+           fd.set('content',tinyMCE.activeEditor.getContent())
+           article.add(fd,function(res){
+               console.log(res)
+               alert(res.msg)
+               if(res.code===201){
+                   location.href='article_list.html'
+               }
+           })
+
+            
+        })
+
+    </script>
+
 
 </body>
 
