@@ -94,6 +94,7 @@
               <button type="button" class="btn btn-default" id="edit_shutoff">关闭</button>
               <button type="button" class="btn btn-primary" id="model_edit">修改</button>
             </div>
+            <input type="text" id="edit-id">
           </div>
         </div>
       </div>
@@ -101,9 +102,33 @@
       <script>
         //编辑
         $('body').on('click','.btn-info',function(){
+          var id=$(this).attr('data-id')
+          var name=$(this).attr('data-name')
+          var slug=$(this).attr('data-slug')
+          $('#edit-name').val(name)
+          $('#edit-slug').val(slug)
+          $('#edit-id').val(id)
         
-          $('#editModal').model('show')
+          $('#editModal').modal('show')
         })
+        $('#edit_shutoff').click(function(){
+          $('#editModal').modal('hide')
+        })
+        $('#model_edit').click(function(){
+          var id= $('#edit-id').val()
+         var name= $('#edit-name').val()
+         var slug=$('#edit-slug').val()
+         caterage.updata(id,name,slug,function(res){
+           alert(res.msg)
+           if(res.code===200){
+             lodaData()
+           }
+         })
+
+          $('#editModal').modal('hide')
+        })
+
+
 
           $('#addModal').modal({
             show:false,
@@ -146,7 +171,7 @@
             <td>{{value.slug}}</td>
             <td class="text-center">
                 <a href="javascript:;"
-                    class="btn btn-info btn-xs">编辑</a>
+                    class="btn btn-info btn-xs" data-id="{{value.id}}" data-name="{{value.name}}" data-slug="{{value.slug}}">编辑</a>
                 <a href="javascript:;" class="btn btn-danger btn-xs" data-id="{{value.id}}">删除</a>
             </td>
         </tr>
