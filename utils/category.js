@@ -15,8 +15,8 @@ var caterage={
             callback(res)
         })
     },
-    updata:function(id,name,slug,callback){
-        $.post(baseUrl+'/admin/category_edit',{id:id,name:name,slug:slug},function(res){
+    updata:function(data,callback){
+        $.post(baseUrl+'/admin/category_edit',data,function(res){
             callback(res)
         })
     }
